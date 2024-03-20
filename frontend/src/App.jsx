@@ -1,14 +1,39 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
-import Login from "../pages/Login";
+import { Suspense, lazy } from "react";
+let Login = lazy(() => import("../pages/SignIn"));
+let SignUp = lazy(() => import("../pages/SignUp"));
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={"Home Loading..."}>
+                <Home />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/signin"
+            element={
+              <Suspense fallback={"Sign in loading..."}>
+                <Login />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Suspense fallback={"Sign up Loading..."}>
+                <SignUp />
+              </Suspense>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
