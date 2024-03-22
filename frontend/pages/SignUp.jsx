@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link as L } from "react-router-dom";
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
@@ -25,6 +26,33 @@ export default function SignUp() {
       password: data.get("password"),
     });
   };
+
+  function createUser() {
+    let users = {
+      name:
+        document.querySelectorAll("input")[0].value +
+        document.querySelectorAll("input")[1].value,
+      email: document.querySelectorAll("input")[2].value,
+      mobile: document.querySelectorAll("input")[3].value,
+      password: document.querySelectorAll("input")[4].value,
+      role: document.querySelectorAll("input")[5].checked ? "admin" : "user",
+    };
+    let flag = true;
+    for (let i in users) {
+      if (users[i] == "") {
+        flag = false;
+        alert(`enter ${i} value`);
+      }
+    }
+    if (flag) {
+      // curl -X POST -H "Content-Type: application/json" -d '{"name": "ab", "email": "c", "mobile": "d", "password": "e", "role": "admin"}' http://localhost/users/createuser
+      console.log(users);
+      axios
+        .post("http://localhost/users/createuser", users)
+        .then((ev) => console.log(ev))
+        .catch((er) => console.log("error" + er));
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -105,18 +133,23 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive messages via email."
+                  control={<Checkbox value="admin" color="primary" />}
+                  label="enable to create admin account"
                 />
               </Grid>
             </Grid>
-            <L to={"/signin"}>
-              <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Sign Up
-              </Button>
-            </L>
+            {/* <L to={"/signin"}> */}
+            <Button
+              onClick={() => {
+                createUser();
+              }}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+            {/* </L> */}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/signin" variant="body2">

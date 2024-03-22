@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "../pages/LandingPage";
 import { Suspense, lazy } from "react";
 let Login = lazy(() => import("../pages/SignIn"));
 let SignUp = lazy(() => import("../pages/SignUp"));
@@ -9,7 +8,6 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<LandingPage />} /> */}
 
           <Route
             path="/signin"
