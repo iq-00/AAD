@@ -22,6 +22,38 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // update gift
+    @PutMapping("updategift/{id}")
+    public ResponseEntity<?> updateGift(@NonNull @PathVariable int id,
+            @RequestBody Gift updateRequest) {
+        Gift updated = userService.updateGift(id, updateRequest);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    // update user
+    @PutMapping("updateuser/{id}")
+    public ResponseEntity<User> updateUser(@NonNull @PathVariable int id,
+            @RequestBody User updateRequest) {
+        User updated = userService.updateUser(id, updateRequest);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    // delete user
+    @DeleteMapping("deleteuser/{userId}")
+    public ResponseEntity<Void> deleteUser(@NonNull @PathVariable Integer userId) {
+        System.out.println(userId);
+        userService.removeUser(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // delete gift
+    @DeleteMapping("deletegift/{userId}")
+    public ResponseEntity<Void> deleteGift(@NonNull @PathVariable Integer userId) {
+        System.out.println(userId);
+        userService.removeGift(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     // get all user
     @GetMapping("/getuser")
     public ResponseEntity<List<User>> getUsers() {
@@ -59,20 +91,20 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("readUser/{email}")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userService.getUserByEmail(email);
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    // @GetMapping("readUser/{email}")
+    // @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    // public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+    // Optional<User> user = userService.getUserByEmail(email);
+    // return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+    // .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    // }
 
-    @GetMapping("/readUsers")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
+    // @GetMapping("/readUsers")
+    // @PreAuthorize("hasAuthority('ADMIN')")
+    // public ResponseEntity<List<User>> getAllUsers() {
+    // List<User> users = userService.getAllUsers();
+    // return new ResponseEntity<>(users, HttpStatus.OK);
+    // }
 
     // @PutMapping("updateUser/{email}")
     // @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
@@ -82,10 +114,11 @@ public class UserController {
     // return new ResponseEntity<>(updated, HttpStatus.OK);
     // }
 
-    @DeleteMapping("deleteUser/{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> removeUser(@NonNull @PathVariable Integer userId) {
-        userService.removeUser(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    // @DeleteMapping("deleteUser/{userId}")
+    // @PreAuthorize("hasAuthority('ADMIN')")
+    // public ResponseEntity<Void> removeUser(@NonNull @PathVariable Integer userId)
+    // {
+    // userService.removeUser(userId);
+    // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    // }
 }

@@ -24,6 +24,34 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // update gift
+    public Gift updateGift(@NonNull int id, Gift updateRequest) {
+        return giftRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setGift(updateRequest.getGift());
+                    existingUser.setEmail(updateRequest.getEmail());
+                    existingUser.setMobile(updateRequest.getMobile());
+                    existingUser.setDescription(updateRequest.getDescription());
+                    existingUser.setWeight(updateRequest.getWeight());
+                    return giftRepository.save(existingUser);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with this id: " +
+                        id));
+    }
+
+    // update user
+    public User updateUser(@NonNull int id, User updateRequest) {
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setName(updateRequest.getName());
+                    existingUser.setEmail(updateRequest.getEmail());
+                    existingUser.setMobile(updateRequest.getMobile());
+                    return userRepository.save(existingUser);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with this id: " +
+                        id));
+    }
+
     // get gifts
     public List<Gift> getGift() {
         return giftRepository.findAll();
@@ -53,7 +81,7 @@ public class UserService {
     }
 
     // updateUser
-    // public User updateUser(@NonNull String email, UpdateRequest updateRequest) {
+    // public User updateUser(@NonNull String email, User updateRequest) {
     // return userRepository.findByEmail(email)
     // .map(existingUser -> {
     // existingUser.setName(updateRequest.getName());
@@ -68,5 +96,10 @@ public class UserService {
     // deleteUser
     public void removeUser(@NonNull Integer userId) {
         userRepository.deleteById(userId);
+    }
+
+    // delete Gift
+    public void removeGift(@NonNull Integer userId) {
+        giftRepository.deleteById(userId);
     }
 }

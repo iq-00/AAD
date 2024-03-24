@@ -12,6 +12,8 @@ let Users = lazy(() => import("../pages/admin/Users"));
 let Gifts = lazy(() => import("../pages/admin/Gifts"));
 let Modifyusers = lazy(() => import("../pages/admin/ModifyUser"));
 let Modifygifts = lazy(() => import("../pages/admin/ModifyGift"));
+let EditUser = lazy(() => import("../pages/admin/EditUser"));
+let EditGift = lazy(() => import("../pages/admin/EditGift"));
 
 function App() {
   return (
@@ -56,6 +58,22 @@ function App() {
             element={
               <Suspense fallback={"admin modify users loading..."}>
                 <Modifyusers />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/edituser/*"
+            element={
+              <Suspense fallback={"admin edit user loading..."}>
+                <EditUser />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/editgift/*"
+            element={
+              <Suspense fallback={"admin edit user loading..."}>
+                <EditGift />
               </Suspense>
             }
           />
