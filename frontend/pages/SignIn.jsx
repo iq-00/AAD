@@ -38,7 +38,33 @@ export default function SignIn() {
         if (ev.status == 200) {
           window.localStorage.setItem("jwt", ev.data);
           window.localStorage.setItem("email", value.email);
-          nav("/")
+
+          async function profile() {
+            return await axios
+              .get(
+                `http://localhost/users/profile?email=${window.localStorage.getItem(
+                  "email"
+                )}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                      "Bearer " + window.localStorage.getItem("jwt"),
+                  },
+                }
+              )
+              .then((ev) => {
+                if (ev.status == 200) {
+                  window.localStorage.setItem(
+                    "profile",
+                    JSON.stringify(ev.data)
+                  );
+                }
+              });
+          }
+          profile().then((ev) => {
+            nav("/");
+          });
         }
       })
       .catch((ev) => {

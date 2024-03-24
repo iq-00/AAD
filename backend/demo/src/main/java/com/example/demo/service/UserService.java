@@ -24,6 +24,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // get gifts
+    public List<Gift> getGift() {
+        return giftRepository.findAll();
+    }
+
     // newUser
     public User createUser(@NonNull User user) {
         // Encrypt the password before saving

@@ -6,17 +6,74 @@ let SignUp = lazy(() => import("../pages/SignUp"));
 let Home = lazy(() => import("../pages/Home"));
 let Profile = lazy(() => import("../pages/Profile"));
 let SendGift = lazy(() => import("../pages/SendGift"));
+let ShowGift = lazy(() => import("../pages/ShowGift"));
+let Admin = lazy(() => import("../pages/Admin"));
+let Users = lazy(() => import("../pages/admin/Users"));
+let Gifts = lazy(() => import("../pages/admin/Gifts"));
+let Modifyusers = lazy(() => import("../pages/admin/ModifyUser"));
+let Modifygifts = lazy(() => import("../pages/admin/ModifyGift"));
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          {/* Admin */}
+          <Route
+            path="/admin"
+            element={
+              <Suspense fallback={"Admin loading..."}>
+                <Admin />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <Suspense fallback={"admin users loading..."}>
+                <Users />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/gifts"
+            element={
+              <Suspense fallback={"admin gifts loading..."}>
+                <Gifts />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/modifygifts"
+            element={
+              <Suspense fallback={"admin modify gifts loading..."}>
+                <Modifygifts />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/modifyusers"
+            element={
+              <Suspense fallback={"admin modify users loading..."}>
+                <Modifyusers />
+              </Suspense>
+            }
+          />
+          {/* End Admin */}
+
           <Route
             path="/"
             element={
               <Suspense fallback={"Home loading..."}>
                 <Home />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/gifts"
+            element={
+              <Suspense fallback={"Gifts loading..."}>
+                <ShowGift />
               </Suspense>
             }
           />

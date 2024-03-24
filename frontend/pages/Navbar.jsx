@@ -24,11 +24,26 @@ export default function Navbar() {
             <Link style={{ color: "black" }} to={"/sendgift"}>
               <div> Send Gift</div>
             </Link>
-            <Link style={{ color: "black" }} to={"/admin"}>
-              <div> Admin</div>
-            </Link>
+            {JSON.parse(window.localStorage.getItem("profile")).role ==
+            "admin" ? (
+              <Link style={{ color: "black" }} to={"/admin"}>
+                <div> Admin</div>
+              </Link>
+            ) : (
+              <div></div>
+            )}
           </div>
-          <div className="contact-btn"> Log Out</div>
+          <Link style={{ color: "black" }} to={"/signin"}>
+            <div
+              onClick={() => {
+                window.localStorage.clear();
+              }}
+              className="contact-btn"
+            >
+              {" "}
+              Log Out
+            </div>
+          </Link>
           <svg
             className="icon-burger"
             viewBox="0 0 448 512"

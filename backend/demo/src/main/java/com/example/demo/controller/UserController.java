@@ -22,6 +22,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // get all user
+    @GetMapping("/getuser")
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    // get all gift
+    @GetMapping("/getgift")
+    public ResponseEntity<?> getGift() {
+        var g = userService.getGift();
+        return new ResponseEntity<>(g, HttpStatus.OK);
+    }
+
     // add gift
     @PostMapping("/addgift")
     public ResponseEntity<?> addGift(@RequestBody Gift gift) {
@@ -38,6 +52,7 @@ public class UserController {
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
+    // create user
     @PostMapping("/createuser")
     public ResponseEntity<User> createUser(@NonNull @RequestBody User user) {
         User createdUser = userService.createUser(user);

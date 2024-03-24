@@ -1,29 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../css/home.css";
 import Navbar from "./Navbar";
-import axios from "axios";
 
 export default function Home() {
-  useEffect(() => {
-    axios
-      .get(
-        `http://localhost/users/profile?email=${window.localStorage.getItem(
-          "email"
-        )}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + window.localStorage.getItem("jwt"),
-          },
-        }
-      )
-      .then((ev) => {
-        if (ev.status == 200) {
-          window.localStorage.setItem("profile", JSON.stringify(ev.data));
-        }
-      });
-  }, []);
-
   return (
     <>
       <div className="wraper">

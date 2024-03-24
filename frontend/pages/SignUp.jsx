@@ -12,12 +12,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link as L } from "react-router-dom";
+import { Link as L, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  let nav = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -49,7 +50,11 @@ export default function SignUp() {
       console.log(users);
       axios
         .post("http://localhost/users/createuser", users)
-        .then((ev) => console.log(ev))
+        .then((ev) => {
+          if (ev.status == 201) {
+            nav("/signin");
+          }
+        })
         .catch((er) => console.log("error" + er));
     }
   }
