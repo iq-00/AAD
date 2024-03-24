@@ -12,20 +12,38 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link as L } from "react-router-dom";
+import { Link as L, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  let nav = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    let value = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    console.log(value);
+    // curl -X POST -H "Content-Type: application/json" -d '{ "email": "a","password":"p" }' http://localhost/auth/authenticate
+    axios
+      .post("http://localhost/auth/authenticate", value, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((ev) => {
+        if (ev.status == 200) {
+          window.localStorage.setItem("jwt", ev.data);
+          window.localStorage.setItem("email", value.email);
+          nav("/")
+        }
+      })
+      .catch((ev) => {
+        alert("invalid username or password");
+      });
   };
 
   return (

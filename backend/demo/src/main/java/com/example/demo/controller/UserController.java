@@ -7,7 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.dto.UpdateRequest;
+import com.example.demo.model.Gift;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -21,6 +21,22 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    // add gift
+    @PostMapping("/addgift")
+    public ResponseEntity<?> addGift(@RequestBody Gift gift) {
+        System.out.println(gift);
+        Gift g = userService.createGift(gift);
+        return new ResponseEntity<>(g, HttpStatus.CREATED);
+    }
+
+    // profile
+    @GetMapping("/profile")
+    public ResponseEntity<?> profile(@RequestParam("email") String user) {
+        System.out.println(user);
+        var profile = userService.getUserByEmail(user);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
 
     @PostMapping("/createuser")
     public ResponseEntity<User> createUser(@NonNull @RequestBody User user) {
@@ -43,13 +59,13 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PutMapping("updateUser/{email}")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<User> updateUser(@NonNull @PathVariable String email,
-            @RequestBody UpdateRequest updateRequest) {
-        User updated = userService.updateUser(email, updateRequest);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
-    }
+    // @PutMapping("updateUser/{email}")
+    // @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    // public ResponseEntity<User> updateUser(@NonNull @PathVariable String email,
+    // @RequestBody UpdateRequest updateRequest) {
+    // User updated = userService.updateUser(email, updateRequest);
+    // return new ResponseEntity<>(updated, HttpStatus.OK);
+    // }
 
     @DeleteMapping("deleteUser/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
